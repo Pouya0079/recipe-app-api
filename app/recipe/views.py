@@ -8,6 +8,7 @@ from recipe.serializers import (
     TagSerializer,
     IngredientSerializer,
     RecipeSerializer,
+    RecipeDetailSerializer,
 )
 
 
@@ -49,3 +50,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrive the recipes for the authenticated user"""
         return self.queryset.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        """Return the appropriate serializer class"""
+        if self.action == 'retrieve':
+            return RecipeDetailSerializer
+
+        return self.serializer_class
